@@ -1,0 +1,47 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Layout &middot; Isotope Demo</title>
+    <script src="./jquery.js"></script>
+    <script src="./isotope.pkgd.js"></script>
+</head>
+
+<body class="demos ">
+    <div class="button-group">
+        <button data-filter="numberGreaterThan50">number > 50</button>
+        <button data-filter="ium">name ends with -ium</button>
+    </div>
+    <div class="grid">
+        <div class="number">99</div>
+        <div class="name">22222ium</div>
+    </div>
+</body>
+<script>
+    var $grid = $('.grid').isotope({});
+    var filterFns = {
+        // show if number is greater than 50
+        numberGreaterThan50: function () {
+            var number = $(this).filter('.number').html();
+            console.log(this)
+            return parseInt(number, 10) > 50;
+        },
+        // show if name ends with -ium
+        ium: function () {
+            var name = $(this).filter('.name').text();
+            return name.match(/ium$/);
+        }
+    };
+
+    // filter items on button click
+    $('.button-group').on('click', 'button', function () {
+        var filterValue = $(this).attr('data-filter');
+        // use filter function if value matches
+        filterValue = filterFns[filterValue] || filterValue;
+        $grid.isotope({ filter: filterValue });
+    });
+</script>
+
+</html>
